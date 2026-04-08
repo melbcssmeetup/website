@@ -8,4 +8,4 @@ Anyone is welcome to join. Events often take place on a weeknight in Richmond or
 
 ## About this repository
 
-As a community we wanted to give an opportunity for all of our attendees to contribute, as such the homepage is built to not only be informative but doubles as a blank canvas to show off your creative css flare! If you want to get involved head over to our [contributing guide](CONTRIBUTING.md) to get started!
+As a community we wanted to give an opportunity for all of our attendees to contribute, as such the homepage is built to not only be informative but doubles as a blank canvas to show off your creative CSS flare! If you want to get involved head over to our [contributing guide](CONTRIBUTING.md) to get started!
