@@ -168,15 +168,3 @@ button#mode-toggle {
     background: var(--card-bg);
     color: var(--text);
 }
-
-@media (prefers-color-scheme: dark) {
-    img {
-        filter: brightness(0.9);
-    }
-    .button img {
-        filter: invert(1);
-    }
-    a:not(.button):hover {
-        filter: brightness(0.75);
-    }
-}
