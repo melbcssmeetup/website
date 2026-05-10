@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="img/logo.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="styles/default.css" />
+        <link id="theme-link" rel="stylesheet" href="styles/default.css" />
         <title>Melbourne CSS Meetup</title>
     </head>
     <body>
@@ -13,7 +13,7 @@
                 <h1>
                     <img
                         src="img/logo.svg"
-                        alt=""
+                        alt="The primary rebeccapurple logo of the CSS specification."
                         width="40"
                         height="40"
                         aria-hidden="true"
@@ -35,35 +35,67 @@
             <nav aria-labelledby="links-title">
                 <ul>
                     <li>
-                        <a class="button" href="https://discord.gg/QQS82ZQfDt">
-                            <img
-                                src="img/discord.svg"
-                                alt=""
-                                width="20"
-                                height="20"
-                            />
+                        <a
+                            class="button"
+                            href="https://discord.gg/QQS82ZQfDt"
+                            target="_blank"
+                        >
+                            <span
+                                class="icon discord-icon"
+                                aria-hidden="true"
+                            ></span>
                             Chat on Discord
                         </a>
                     </li>
                     <li>
                         <a
                             class="button"
-                            href="https://forms.gle/kXoSZ6RrkELmjgJy6"
+                            href="https://www.youtube.com/@melcss"
+                            target="_blank"
                         >
-                            <span aria-hidden="true">🎤</span> Give a talk
+                            <span
+                                class="icon youtube-icon"
+                                aria-hidden="true"
+                            ></span>
+                            Watch on YouTube
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            class="button"
+                            href="https://github.com/melbcssmeetup"
+                            target="_blank"
+                        >
+                            <span
+                                class="icon github-icon"
+                                aria-hidden="true"
+                            ></span>
+                            Follow on GitHub
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            class="button"
+                            href="https://forms.gle/kXoSZ6RrkELmjgJy6"
+                            target="_blank"
+                        >
+                            <span
+                                class="icon mic-icon"
+                                aria-hidden="true"
+                            ></span>
+                            Give a Talk
                         </a>
                     </li>
                     <li>
                         <a
                             class="button"
                             href="https://www.linkedin.com/in/zachjensz"
+                            target="_blank"
                         >
-                            <img
-                                src="img/linkedin.svg"
-                                alt=""
-                                width="20"
-                                height="20"
-                            />
+                            <span
+                                class="icon linkedin-icon"
+                                aria-hidden="true"
+                            ></span>
                             Your host Zach Jensz
                         </a>
                     </li>
@@ -76,16 +108,59 @@
                     <time datetime="2026-06-02T17:30+1000"
                         >5:30 PM, Tuesday 2nd June</time
                     >
-                    <address>
-                        Atlassian, Level 20 Queen & Collins Tower,<br />
-                        100 Queen Street Melbourne
-                    </address>
+                    <a
+                        href="https://maps.app.goo.gl/3ssmtzZzcYBkhFCd8"
+                        target="_blank"
+                    >
+                        <address>
+                            Atlassian, Level 20 Queen & Collins Tower,<br />
+                            100 Queen Street Melbourne
+                        </address>
+                    </a>
                 </article>
             </section>
-            <section aria-labelledby="past-events-title">
-                <h2 id="past-events-title">Past Events</h2>
-                <p>No past events to display yet.</p>
+            <section class="controls">
+                <a id="mode-toggle" class="button">Toggle Dark/Light</a>
+                <label for="style-select">Communities Themes:</label>
+                <select id="style-select">
+                    <option value="default.css">Default</option>
+                    <option value="retro-asbedb.css">Retro by AsbedB</option>
+                </select>
+                <a
+                    href="https://github.com/melbcssmeetup/website"
+                    target="_blank"
+                >
+                    Want to make a theme? Click Here!
+                </a>
             </section>
         </main>
     </body>
+    <script>
+        const isDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+        ).matches;
+        if (isDark) {
+            document.documentElement.style.colorScheme = "dark";
+            document.body.classList.add("dark-mode");
+        } else {
+            document.documentElement.style.colorScheme = "light";
+            document.body.classList.remove("dark-mode");
+        }
+        const modeToggle = document.getElementById("mode-toggle");
+        modeToggle.addEventListener("click", () => {
+            const currentScheme = getComputedStyle(
+                document.documentElement,
+            ).colorScheme;
+            const newScheme = currentScheme === "dark" ? "light" : "dark";
+            document.documentElement.style.colorScheme = newScheme;
+            document.body.classList.toggle("dark-mode", newScheme === "dark");
+        });
+        const styleSelect = document.getElementById("style-select");
+        styleSelect.value = "default.css";
+        const themeLink = document.getElementById("theme-link");
+        styleSelect.addEventListener("change", (event) => {
+            const fileName = event.target.value;
+            themeLink.setAttribute("href", `styles/${fileName}`);
+        });
+    </script>
 </html>

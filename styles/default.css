@@ -10,11 +10,26 @@
         system-ui,
         -apple-system,
         sans-serif;
-    --bg: light-dark(#efedea, #222);
-    --text: light-dark(#222, #eee);
-    --card-bg: light-dark(#f9f8f6, #111);
-    --btn-bg: light-dark(#e2e0dd, #333);
-    --accent: rebeccapurple;
+    --bg: light-dark(
+        oklch(94.681% 0.00445 77.997),
+        oklch(25.197% 0.00003 271.152)
+    );
+    --text: light-dark(
+        oklch(25.197% 0.00003 271.152),
+        oklch(94.912% 0.00011 271.152)
+    );
+    --card-bg: light-dark(
+        oklch(97.934% 0.00275 84.3),
+        oklch(17.764% 0.00002 271.152)
+    );
+    --btn-bg: light-dark(
+        oklch(90.741% 0.00451 78.012),
+        oklch(32.109% 0.00004 271.152)
+    );
+    --accent: light-dark(
+        oklch(44.027% 0.16037 303.368),
+        oklch(57.463% 0.19925 303.741)
+    );
 }
 
 html {
@@ -52,7 +67,7 @@ h2 {
 address {
     font-style: normal;
     margin-top: 0.5rem;
-    color: gray;
+    color: --var(text);
 }
 
 nav ul {
@@ -60,24 +75,6 @@ nav ul {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-}
-
-.button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1ch;
-    width: 100%;
-    padding: 0.8rem 1.2rem;
-    background-color: var(--btn-bg);
-    color: var(--text);
-    text-decoration: none;
-    font-weight: 600;
-    transition: filter 0.2s ease;
-}
-
-.button:hover {
-    filter: brightness(0.9) contrast(1.1);
 }
 
 article {
@@ -88,8 +85,7 @@ article {
 }
 
 a:not(.button) {
-    color: var(--accent);
-    font-weight: bold;
+    text-decoration-color: var(--accent);
     text-underline-offset: 3px;
 }
 
@@ -97,14 +93,66 @@ a:not(.button):hover {
     filter: brightness(1.75);
 }
 
-@media (prefers-color-scheme: dark) {
-    img {
-        filter: brightness(0.9);
-    }
-    .button img {
-        filter: invert(1);
-    }
-    a:not(.button):hover {
-        filter: brightness(0.75);
-    }
+select,
+button#mode-toggle {
+    font-family: inherit;
+    padding: 0.5rem;
+    border: var(--border-width) solid var(--text);
+    background: var(--card-bg);
+    color: var(--text);
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 1ch;
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    background-color: var(--btn-bg);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    transition: filter 0.2s ease;
+    user-select: none;
+}
+
+.button:hover {
+    filter: brightness(0.9) contrast(1.1);
+}
+
+.controls {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: var(--accent);
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: center;
+}
+
+.discord-icon {
+    mask-image: url("/img/discord.svg");
+}
+
+.github-icon {
+    mask-image: url("/img/github.svg");
+}
+
+.linkedin-icon {
+    mask-image: url("/img/linkedin.svg");
+}
+
+.mic-icon {
+    mask-image: url("/img/mic.svg");
+}
+
+.youtube-icon {
+    mask-image: url("/img/youtube.svg");
 }
