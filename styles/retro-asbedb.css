@@ -23,11 +23,11 @@
         oklch(93.071% 0.22853 123.107)
     );
     --retro-shadow-out:
-        2px 2px 0px #fff inset,
-        -2px -2px 0px oklch(59.987% 0.00007 271.152) inset;
+        2px 2px 0 oklch(100% 0.00011 271.152) inset,
+        -2px -2px 0 oklch(59.987% 0.00007 271.152) inset;
     --retro-shadow-in:
-        2px 2px 0px #808080 inset,
-        -2px -2px 0px oklch(100% 0.00011 271.152) inset;
+        2px 2px 0 oklch(59.987% 0.00007 271.152) inset,
+        -2px -2px 0 oklch(100% 0.00011 271.152) inset;
     --border-width: 2px;
 }
 
@@ -51,7 +51,7 @@ header {
     border: var(--border-width) solid var(--text);
     padding: 1rem;
     background: var(--card-bg);
-    box-shadow: 4px 4px 0px var(--accent);
+    box-shadow: 4px 4px 0 var(--accent);
 }
 
 main {
@@ -72,7 +72,7 @@ img {
     image-rendering: pixelated;
 }
 
-.button {
+.link-button {
     display: inline-flex;
     align-items: center;
     gap: 1ch;
@@ -126,16 +126,15 @@ article {
     background: var(--card-bg);
     padding: 1.5rem;
     border: var(--border-width) solid var(--text);
-    border-radius: 0px;
-    box-shadow: 8px 8px 0px var(--text);
+    box-shadow: 8px 8px 0 var(--text);
 }
 
 address {
     font-style: normal;
     margin-top: 1rem;
     padding: 0.5rem;
-    background: #000;
-    color: #fff;
+    background: oklch(0% 0 0);
+    color: oklch(100% 0.00011 271.152);
     display: inline-block;
 }
 
@@ -157,7 +156,7 @@ a:not(.button) {
     margin-top: 2rem;
     padding: 1rem;
     border: 1px dashed var(--text);
-    background: rgba(255, 255, 255, 0.1);
+    background: oklch(100% 0.00011 271.152 / 0.1);
 }
 
 select,

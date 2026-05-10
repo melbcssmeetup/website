@@ -81,7 +81,8 @@ article {
     background: var(--card-bg);
     padding: 1.5rem;
     border-radius: 8px;
-    border: 1px solid light-dark(#ddd, #444);
+    border: 1px solid
+        light-dark(oklab(89.755% 0 -0.0001), oklch(38.666% 0.00004 271.152));
 }
 
 a:not(.button) {
@@ -102,7 +103,7 @@ button#mode-toggle {
     color: var(--text);
 }
 
-.button {
+.link-button {
     display: inline-flex;
     align-items: center;
     gap: 1ch;

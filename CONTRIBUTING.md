@@ -1,6 +1,6 @@
 ## How to Contribute
 
-The melbcss site serves as a blank canvas for creativity! We have built the site to allow for users to fork style and submit changes to be reviewed and showcased on our home page!
+The [MelbCSS](https://melbcss.com/) site serves as a blank canvas for creativity! We have built the site to allow for users to fork style and submit changes to be reviewed and showcased on our home page!
 
 If you are new to git/github and need help submitting your design you can [join the discord](https://discord.gg/QQS82ZQfDt) to get further information!
 
@@ -70,4 +70,4 @@ git push origin your-branch-name
 4. Review Process
     - Once submitted, the maintainers will review your code.
     - Feedback: You might be asked to make small adjustments. Simply commit the changes to the same branch and push them; the PR will update automatically.
-    - Approval: Once approved, your code will be merged and visible on [the website](https://melcss.com/)
+    - Approval: Once approved, your code will be merged and visible on [the website](https://melbcss.com/)

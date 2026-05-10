@@ -1,10 +1,10 @@
-## The official melbcss website repo
+## The official MelbCSS website repo
 
 MelbCSS is a community in Melbourne that holds meetups over pizza & drinks to share CSS knowledge!
 
 Anyone is welcome to join. Events often take place on a weeknight in Richmond or CBD, with occasional bonus special events.
 
-[Come join our meetups!](https://melcss.com/)
+[Come join our meetups!](https://melbcss.com/)
 
 ## About this repository
 
