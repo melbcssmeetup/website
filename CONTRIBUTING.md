@@ -29,16 +29,18 @@ git -switch -c your-branch-name
 To ensure your theme is recognized and easy to manage, please follow these steps:
 
 1. Create your file: In the styles/ directory, create a new CSS file.
-2. Naming Convention: Use the format `<themename>-<yourname>.css`.
-    - Example: `synthwave-asbedb.css`
-3. Use Variables - currently the site supports dark and light mode using variables, if you would like a toggle to be functional you can make use of some native css!
-4. Register your theme: Open `index.html` and locate the `<select id="style-select">` tag. Add a new `<option>` with your filename as the value:
+2. Naming Convention: Use the format `<themename>.css`.
+    - Example: `synthwave.css`
+3. Add a CSS comment as the first line with the theme name and author.
+    - Example: `/* Theme: Synthwave | Author: AsbedB */`
+4. Use Variables - currently the site supports dark and light mode using variables, if you would like a toggle to be functional you can make use of some native css!
+5. Register your theme: Open `index.html` and locate the `<select id="style-select">` tag. Add a new `<option>` with your filename as the value:
 
 ```html
 <select id="style-select" autocomplete="off">
     <option value="default.css">Default</option>
     <!-- Add yours below -->
-    <option value="synthwave-asbedb.css">Synthwave by AsbedB</option>
+    <option value="synthwave.css">Synthwave by AsbedB</option>
 </select>
 ```
 
@@ -46,7 +48,8 @@ To ensure your theme is recognized and easy to manage, please follow these steps
 
 Before submitting your Pull Request, please ensure:
 
-- [ ] My file follows the naming convention: themename-username.css.
+- [ ] My file follows the naming convention: themename.css.
+- [ ] My CSS file starts with a comment containing the theme name and author.
 - [ ] I have added my theme as an `<option>` in the index.html select box.
 - [ ] I have tested select and other toggles with my theme active.
 - [ ] I have removed any unnecessary "test" code or debug borders.
