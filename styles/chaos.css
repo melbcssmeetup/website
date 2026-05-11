@@ -69,6 +69,8 @@
         oklch(45% 0.005 250),
         oklch(70% 0.005 92)
     );
+
+    overflow: hidden;
 }
 
 ::selection {
