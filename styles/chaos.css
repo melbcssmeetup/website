@@ -67,7 +67,7 @@
 }
 
 ::selection {
-    background-color: var(--accent);
+    background-color: white;
     color: light-dark(oklch(15% 0 0), oklch(15% 0 0));
 }
 
@@ -107,7 +107,14 @@ html::after {
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    backdrop-filter: url('data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="p"%3E%3CfeTurbulence baseFrequency=".01" numOctaves="1" seed="3" result="n"%3E%3Canimate attributeName="baseFrequency" values="0;.015;0" dur="10s" repeatCount="indefinite"/%3E%3C/feTurbulence%3E%3CfeDisplacementMap in="SourceGraphic" in2="n" scale="12"/%3E%3C/filter%3E%3C/svg%3E#p');
+    will-change: backdrop-filter, opacity;
+    animation: pond-prime 1s linear;
+    backdrop-filter: url('data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="p"%3E%3CfeTurbulence baseFrequency=".01" numOctaves="1" seed="3" result="n"%3E%3Canimate attributeName="baseFrequency" values="0;.015;0" dur="10s" repeatCount="indefinite"/%3E%3C/feTurbulence%3E%3CfeDisplacementMap in="SourceGraphic" in2="n" scale="20"/%3E%3C/filter%3E%3C/svg%3E#p');
+}
+
+@keyframes pond-prime {
+    from { opacity: 0.999; }
+    to { opacity: 1; }
 }
 
 header {
