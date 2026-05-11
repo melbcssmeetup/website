@@ -143,10 +143,10 @@
             </section>
             <section class="controls">
                 <a id="mode-toggle" class="link-button">Toggle Dark/Light</a>
-                <label for="style-select">Communities Themes:</label>
+                <label for="style-select">Community Themes:</label>
                 <select id="style-select">
                     <option value="default.css">Default</option>
-                    <option value="retro-asbedb.css">Retro by AsbedB</option>
+                    <option value="retro.css">Retro by AsbedB</option>
                 </select>
                 <a
                     href="https://github.com/melbcssmeetup/website"
@@ -178,11 +178,22 @@
             document.body.classList.toggle("dark-mode", newScheme === "dark");
         });
         const styleSelect = document.getElementById("style-select");
-        styleSelect.value = "default.css";
         const themeLink = document.getElementById("theme-link");
+        const theme = (new URLSearchParams(window.location.search).get("theme")) + ".css";
+        const validThemes = [...styleSelect.options].map(({ value }) => value);
+        const initialTheme = validThemes.includes(theme) ? theme : "default.css";
+        styleSelect.value = initialTheme;
+        themeLink.setAttribute("href", `styles/${initialTheme}`);
         styleSelect.addEventListener("change", (event) => {
             const fileName = event.target.value;
             themeLink.setAttribute("href", `styles/${fileName}`);
+            const url = new URL(window.location.href);
+            if (fileName === "default.css") {
+                url.searchParams.delete("theme");
+            } else {
+                url.searchParams.set("theme", fileName.replace(".css", ""));
+            }
+            history.replaceState(null, "", url);
         });
     </script>
 </html>
