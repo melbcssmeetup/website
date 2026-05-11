@@ -187,6 +187,13 @@
         styleSelect.addEventListener("change", (event) => {
             const fileName = event.target.value;
             themeLink.setAttribute("href", `styles/${fileName}`);
+            const url = new URL(window.location.href);
+            if (fileName === "default.css") {
+                url.searchParams.delete("theme");
+            } else {
+                url.searchParams.set("theme", fileName.replace(".css", ""));
+            }
+            history.replaceState(null, "", url);
         });
     </script>
 </html>
