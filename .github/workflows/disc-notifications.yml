@@ -1,0 +1,30 @@
+name: Discord Notifications
+
+on:
+    issues:
+        types: [opened]
+    pull_request:
+        types: [opened, closed]
+
+jobs:
+    discord-updates:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Issue Opened
+              if: github.event_name == 'issues'
+              run: |
+                  curl -H "Content-Type: application/json" \
+                       -d "{\"content\": \"**A New Issue has been raised:** ${{ github.event.issue.title }}\n${{ github.event.issue.html_url }}\"}" \
+                       ${{ secrets.DISCORD_WEBHOOK }}
+            - name: PR Opened
+              if: github.event_name == 'pull_request' && github.event.action == 'opened'
+              run: |
+                  curl -H "Content-Type: application/json" \
+                       -d "{\"content\": \"**A New Pull Request Has Been Opened:** ${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url }}\"}" \
+                       ${{ secrets.DISCORD_WEBHOOK }}
+            - name: PR Merged
+              if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+              run: |
+                  curl -H "Content-Type: application/json" \
+                       -d "{\"content\": \"**PR Merged:** ${{ github.event.pull_request.title }}\nMerged by: ${{ github.actor }}\n${{ github.event.pull_request.html_url }}\"}" \
+                       ${{ secrets.DISCORD_WEBHOOK }}
