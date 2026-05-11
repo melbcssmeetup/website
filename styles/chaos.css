@@ -1,11 +1,10 @@
-/* All the chaos by ronvoluted 🦆 */
+/* Chaos by ronvoluted 🦆 */
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     transition: transform 0.5s ease-out;
-    will-change: transform;
 }
 
 *:focus {
@@ -19,59 +18,48 @@
         system-ui,
         -apple-system,
         sans-serif;
+    font-size: 1.25rem;
+    color: whitesmoke;
+    text-shadow:
+        0.1rem -0.1rem red,
+        -0.1rem -0.1rem cyan;
 
-    /* paper white / ink black */
     --bg: light-dark(
         oklch(98.5% 0.002 95),
         oklch(15% 0 0)
     );
 
-    /* ink black / paper white */
     --text: light-dark(
         oklch(15% 0 0),
         oklch(97% 0.003 95)
     );
 
-    /* cream parchment / charcoal */
     --card-bg: light-dark(
         oklch(100% 0 0),
         oklch(20% 0 0)
     );
 
-    /* warm bone / slate ink */
     --btn-bg: light-dark(
         oklch(94% 0.012 92),
         oklch(26% 0.003 250)
     );
 
-    /* gold — the signature */
     --accent: light-dark(
         oklch(80% 0.165 88),
         oklch(86% 0.17 92)
     );
 
-    /* extra ronvoluted tokens */
-
-    /* signature gold (#FFD700-ish) */
-    --gold: light-dark(
-        oklch(80% 0.165 88),
-        oklch(86% 0.17 92)
-    );
-
-    /* dodgerblue (#1E90FF) */
     --dodgerblue: light-dark(
         oklch(58% 0.2 254),
         oklch(68% 0.18 252)
     );
 
-    /* hairline divider — graphite / smoke */
     --border-width: 1px;
     --border-chaos: light-dark(
         oklch(88% 0.005 92),
         oklch(32% 0.004 250)
     );
 
-    /* muted body — for secondary text */
     --muted: light-dark(
         oklch(45% 0.005 250),
         oklch(70% 0.005 92)
@@ -86,7 +74,6 @@
 html {
     background-color: var(--bg);
     color: var(--text);
-    will-change: auto;
 }
 
 body {
@@ -96,7 +83,6 @@ body {
     padding: 2rem 1rem;
     line-height: 1.5;
     position: relative;
-    will-change: auto;
 }
 
 body::before {
@@ -110,6 +96,7 @@ body::before {
     background-size: 15rem 15rem;
     opacity: 0.2;
     transform-origin: center;
+    will-change: transform, background-position;
 }
 
 header {
@@ -117,6 +104,10 @@ header {
     max-width: 55ch;
     margin-bottom: 2rem;
     text-wrap: balance;
+}
+
+p {
+    font-size: 1.5rem;
 }
 
 main {
@@ -138,6 +129,7 @@ main nav ul {
     height: 4rem;
     margin: 6rem auto 10rem;
     transform-style: preserve-3d;
+    will-change: transform;
 
     & li {
         position: absolute;
@@ -197,10 +189,6 @@ button#mode-toggle {
     background: var(--card-bg);
     color: var(--text);
 }
-
-/* article > a {
-    transform-origin: center;
-} */
 
 .link-button {
     display: inline-flex;
