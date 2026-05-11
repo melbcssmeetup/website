@@ -1,10 +1,12 @@
 name: Discord Notifications
 
 on:
+    workflow_run:
+        workflows: ["pages-build-deployment"]
+        types:
+            - completed
     issues:
         types: [opened]
-    pull_request:
-        types: [opened, closed]
 
 jobs:
     discord-updates:
@@ -14,17 +16,17 @@ jobs:
               if: github.event_name == 'issues'
               run: |
                   curl -H "Content-Type: application/json" \
-                       -d "{\"content\": \"**A New Issue has been raised:** ${{ github.event.issue.title }}\n${{ github.event.issue.html_url }}\"}" \
+                       -d "{\"content\": \"**New Issue:** ${{ github.event.issue.title }}\n${{ github.event.issue.html_url }}\"}" \
                        ${{ secrets.DISCORD_WEBHOOK }}
-            - name: PR Opened
-              if: github.event_name == 'pull_request' && github.event.action == 'opened'
+            - name: Build Success
+              if: >
+                  github.event_name == 'workflow_run' && 
+                  github.event.workflow_run.conclusion == 'success'
               run: |
+                  # Get details from the deployment event
+                  COMMIT_MSG="${{ github.event.workflow_run.head_commit.message }}"
+                  AUTHOR="${{ github.event.workflow_run.head_commit.author.name }}"
+                  SITE_URL="https://melbcss.com/"
                   curl -H "Content-Type: application/json" \
-                       -d "{\"content\": \"**A New Pull Request Has Been Opened:** ${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url }}\"}" \
-                       ${{ secrets.DISCORD_WEBHOOK }}
-            - name: PR Merged
-              if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
-              run: |
-                  curl -H "Content-Type: application/json" \
-                       -d "{\"content\": \"**PR Merged:** ${{ github.event.pull_request.title }}\nMerged by: ${{ github.actor }}\n${{ github.event.pull_request.html_url }}\"}" \
+                       -d "{\"content\": \"**A New Site Update Has Just Gone Live!**\n**Changes:** $COMMIT_MSG\n**By:** $AUTHOR\n[View Site]($SITE_URL)\"}" \
                        ${{ secrets.DISCORD_WEBHOOK }}
