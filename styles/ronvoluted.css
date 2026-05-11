@@ -87,6 +87,33 @@ body {
     min-height: 100svh;
     padding: 2rem 1rem;
     line-height: 1.5;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: -10vmax;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg width='120' height='120'><text x='60' y='60' font-size='80' text-anchor='middle' dominant-baseline='central'>🥴</text></svg>");
+    background-repeat: repeat;
+    background-size: 15rem 15rem;
+    opacity: 0.2;
+    transform-origin: center;
+    animation:
+        hobble 10s ease-in-out infinite alternate,
+        wobble 2s linear infinite alternate;
+}
+
+@keyframes hobble {
+    from { background-position: -50vmin 50vmin; }
+    to { background-position: 50vmin -50vmin; }
+}
+
+@keyframes wobble {
+    from { transform: rotate(-12deg); }
+    to { transform: rotate(12deg); }
 }
 
 header {
@@ -154,7 +181,7 @@ button#mode-toggle {
     align-items: center;
     gap: 1ch;
     width: 100%;
-    padding: 0.8rem 1.2rem;
+    padding: 0.50vmin 1.2rem;
     background-color: var(--btn-bg);
     color: var(--text);
     text-decoration: none;
