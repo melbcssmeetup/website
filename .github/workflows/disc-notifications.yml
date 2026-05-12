@@ -14,19 +14,27 @@ jobs:
         steps:
             - name: Issue Opened
               if: github.event_name == 'issues'
+              env:
+                  ISSUE_TITLE: ${{ github.event.issue.title }}
+                  ISSUE_URL: ${{ github.event.issue.html_url }}
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
               run: |
-                  curl -H "Content-Type: application/json" \
-                       -d "{\"content\": \"**New Issue:** ${{ github.event.issue.title }}\n${{ github.event.issue.html_url }}\"}" \
-                       ${{ secrets.DISCORD_WEBHOOK }}
+                  PAYLOAD=$(jq -n --arg msg "**New Issue:** $ISSUE_TITLE"$'\n'"$ISSUE_URL" '{content: $msg}')
+                  curl -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK"
             - name: Build Success
               if: >
                   github.event_name == 'workflow_run' && 
                   github.event.workflow_run.conclusion == 'success'
+              env:
+                  COMMIT_MSG: ${{ github.event.workflow_run.head_commit.message }}
+                  AUTHOR: ${{ github.event.workflow_run.head_commit.author.name }}
+                  SITE_URL: "https://melbcss.com/"
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
               run: |
-                  # Get details from the deployment event
-                  COMMIT_MSG="${{ github.event.workflow_run.head_commit.message }}"
-                  AUTHOR="${{ github.event.workflow_run.head_commit.author.name }}"
-                  SITE_URL="https://melbcss.com/"
-                  curl -H "Content-Type: application/json" \
-                       -d "{\"content\": \"**A New Site Update Has Just Gone Live!**\n**Changes:** $COMMIT_MSG\n**By:** $AUTHOR\n[View Site]($SITE_URL)\"}" \
-                       ${{ secrets.DISCORD_WEBHOOK }}
+                  # Fixed the missing opening asterisks and cleaned up the string
+                  FULL_MSG="**A New Site Update Has Just Gone Live!**
+                  **Changes:** $COMMIT_MSG
+                  **By:** $AUTHOR
+                  [View Site]($SITE_URL)"
+                  PAYLOAD=$(jq -n --arg msg "$FULL_MSG" '{content: $msg}')
+                  curl -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK"
