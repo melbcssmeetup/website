@@ -17,9 +17,40 @@ jobs:
               env:
                   ISSUE_TITLE: ${{ github.event.issue.title }}
                   ISSUE_URL: ${{ github.event.issue.html_url }}
+                  ISSUE_USER: ${{ github.event.issue.user.login }}
+                  ISSUE_BODY: ${{ github.event.issue.body }}
+                  REPO_URL: "${{ github.server_url }}/${{ github.repository }}"
                   DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
               run: |
-                  PAYLOAD=$(jq -n --arg msg "**New Issue:** $ISSUE_TITLE"$'\n'"$ISSUE_URL" '{content: $msg}')
+                  CLEAN_BODY=$(echo "$ISSUE_BODY" <<< head -c 200)
+                  PAYLOAD=$(jq -n \
+                  --arg title "$ISSUE_TITLE" \
+                  --arg url "$ISSUE_URL" \
+                  --arg user "$ISSUE_USER" \
+                  --arg body "$CLEAN_BODY" \
+                  --arg repo "$REPO_URL" \
+                  '{
+                      embeds: [{
+                      title: ("New Issue: " + $title),
+                      description: (if $body != "" then ($body + "...") else "No description provided."),
+                      url: $url,
+                      color: 15105570,
+                      author: {
+                          name: ("Opened by " + $user),
+                          url: ("https://github.com/" + $user)
+                      },
+                      fields: [
+                          {
+                          name: "Repository",
+                          value: ("[View on GitHub](\($repo))"),
+                          inline: true
+                          }
+                      ],
+                      footer: {
+                          text: "MelbCSS Automated Alerts"
+                      }
+                      }]
+                  }')
                   curl -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK"
             - name: Build Success
               if: >
@@ -30,11 +61,35 @@ jobs:
                   AUTHOR: ${{ github.event.workflow_run.head_commit.author.name }}
                   SITE_URL: "https://melbcss.com/"
                   DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+                  REPO_URL: "${{ github.server_url }}/${{ github.repository }}"
               run: |
-                  # Fixed the missing opening asterisks and cleaned up the string
-                  FULL_MSG="**A New Site Update Has Just Gone Live!**
-                  **Changes:** $COMMIT_MSG
-                  **By:** $AUTHOR
-                  [View Site]($SITE_URL)"
-                  PAYLOAD=$(jq -n --arg msg "$FULL_MSG" '{content: $msg}')
+                  PAYLOAD=$(jq -n \
+                    --arg msg "$COMMIT_MSG" \
+                    --arg author "$AUTHOR" \
+                    --arg url "$SITE_URL" \
+                    --arg repo "$REPO_URL" \
+                    --arg timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+                    '{
+                        embeds: [{
+                        title: "A new update has just gone live",
+                        description: $msg,
+                        url: $url,
+                        color: 3066993,
+                        timestamp: $timestamp,
+                        author: {
+                            name: ("Contributor: " + $author)
+                        },
+                        fields: [
+                            {
+                            name: "Quick Links",
+                            value: ("🌐 [Visit Site](\($url))  •  📂 [Source Code](\($repo))"),
+                            inline: false
+                            }
+                        ],
+                        footer: {
+                            text: "MelbCSS Automated Alerts",
+                            icon_url: "https://github.com/fluidicon.png"
+                        }
+                        }]
+                    }')
                   curl -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK"
