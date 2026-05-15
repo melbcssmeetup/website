@@ -1,0 +1,317 @@
+/* Theme: Minecraft | Author: LakshmiChaitanya2008 */
+
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    color-scheme: light dark;
+    font-family: 'Silkscreen', monospace;
+
+    --bg: light-dark(#8B7355, #1a1a2e);
+    --text: light-dark(#3E2723, #e0e0d0);
+    --card-bg: light-dark(#C4A46C, #2d2d44);
+    --btn-bg: light-dark(#A89070, #3a3a54);
+    --accent: light-dark(#4CAF50, #55DD55);
+
+    --border-color: light-dark(#5D4037, #444466);
+    --border-width: 4px;
+    --shadow-dark: light-dark(#3E2723, #0a0a14);
+    --shadow-light: light-dark(#D7CCC8, #4a4a66);
+
+    --mc-shadow-out:
+        3px 3px 0 var(--shadow-dark) inset,
+        -3px -3px 0 var(--shadow-light) inset;
+    --mc-shadow-in:
+        3px 3px 0 var(--shadow-light) inset,
+        -3px -3px 0 var(--shadow-dark) inset;
+}
+
+img {
+    image-rendering: pixelated;
+}
+
+::selection {
+    background-color: var(--accent);
+    color: #000;
+}
+
+html {
+    background-color: var(--bg);
+    color: var(--text);
+    background-image:
+        repeating-conic-gradient(
+            light-dark(#8B7355, #1a1a2e) 0% 25%,
+            light-dark(#7D674D, #16162a) 0% 50%
+        );
+    background-size: 16px 16px;
+}
+
+body {
+    display: grid;
+    place-content: center;
+    min-height: 100svh;
+    padding: 2rem 1rem;
+    line-height: 1.6;
+}
+
+header {
+    margin-inline: auto;
+    max-width: 55ch;
+    margin-bottom: 2rem;
+    border: var(--border-width) solid var(--border-color);
+    padding: 1.5rem;
+    background: var(--card-bg);
+    box-shadow:
+        var(--mc-shadow-out),
+        6px 6px 0 var(--shadow-dark);
+    text-align: center;
+    position: relative;
+}
+
+header::before {
+    content: '⛏';
+    position: absolute;
+    top: -14px;
+    left: 12px;
+    font-size: 1.4rem;
+}
+
+header::after {
+    content: '🗡';
+    position: absolute;
+    top: -14px;
+    right: 12px;
+    font-size: 1.4rem;
+}
+
+h1,
+h2,
+h3 {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow:
+        2px 2px 0 var(--shadow-dark),
+        -1px -1px 0 var(--shadow-light);
+    margin-bottom: 0.5rem;
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--accent);
+}
+
+h2 {
+    font-size: 1.2rem;
+    color: var(--accent);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 55ch;
+}
+
+main > p {
+    background: var(--card-bg);
+    border: var(--border-width) solid var(--border-color);
+    padding: 1rem;
+    box-shadow: var(--mc-shadow-out);
+    font-size: 0.85rem;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.link-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 1ch;
+    width: 100%;
+    padding: 0.7rem 1rem;
+    background-color: var(--btn-bg);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 700;
+    font-family: inherit;
+    font-size: 0.8rem;
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: var(--mc-shadow-out);
+    user-select: none;
+    transition: transform 0.05s, box-shadow 0.05s;
+    cursor: pointer;
+    position: relative;
+}
+
+.link-button:hover {
+    background-color: var(--accent);
+    color: #000;
+    box-shadow: var(--mc-shadow-out);
+    transform: scale(1.01);
+}
+
+.link-button:active {
+    box-shadow: var(--mc-shadow-in);
+    transform: translate(2px, 2px);
+}
+
+.icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: var(--accent);
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: center;
+}
+
+.link-button:hover .icon {
+    background-color: #000;
+}
+
+.discord-icon {
+    mask-image: url("/img/discord.svg");
+}
+
+.github-icon {
+    mask-image: url("/img/github.svg");
+}
+
+.linkedin-icon {
+    mask-image: url("/img/linkedin.svg");
+}
+
+.mic-icon {
+    mask-image: url("/img/mic.svg");
+}
+
+.youtube-icon {
+    mask-image: url("/img/youtube.svg");
+}
+
+article {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border: var(--border-width) solid var(--border-color);
+    box-shadow:
+        var(--mc-shadow-out),
+        6px 6px 0 var(--shadow-dark);
+    position: relative;
+}
+
+article::before {
+    content: '📅';
+    position: absolute;
+    top: -12px;
+    right: 12px;
+    font-size: 1.2rem;
+}
+
+article h3 {
+    color: var(--accent);
+}
+
+time {
+    display: block;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    padding: 0.3rem 0.6rem;
+    background: var(--shadow-dark);
+    color: var(--accent);
+    display: inline-block;
+    border: 2px solid var(--border-color);
+}
+
+address {
+    font-style: normal;
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    background: var(--shadow-dark);
+    color: var(--accent);
+    border: 2px solid var(--border-color);
+    font-size: 0.8rem;
+}
+
+a:not(.link-button) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 700;
+}
+
+a:not(.link-button):hover {
+    text-shadow: 0 0 8px var(--accent);
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border: var(--border-width) solid var(--border-color);
+    background: var(--card-bg);
+    box-shadow: var(--mc-shadow-out);
+}
+
+.controls label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+select,
+button#mode-toggle {
+    font-family: inherit;
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    border: var(--border-width) solid var(--border-color);
+    background: var(--btn-bg);
+    color: var(--text);
+    box-shadow: var(--mc-shadow-out);
+    cursor: pointer;
+}
+
+select:hover,
+button#mode-toggle:hover {
+    background: var(--accent);
+    color: #000;
+}
+
+select:active,
+button#mode-toggle:active {
+    box-shadow: var(--mc-shadow-in);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+header {
+    animation: float 4s ease-in-out infinite;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.3rem;
+    }
+    
+    header {
+        padding: 1rem;
+    }
+    
+    .link-button {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.75rem;
+    }
+}
