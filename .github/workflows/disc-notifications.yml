@@ -58,7 +58,6 @@ jobs:
                   github.event.workflow_run.conclusion == 'success'
               env:
                   COMMIT_MSG: ${{ github.event.workflow_run.head_commit.message }}
-                  AUTHOR: ${{ github.event.workflow_run.head_commit.author.name }}
                   SITE_URL: "https://melbcss.com/"
                   DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
                   REPO_URL: "${{ github.server_url }}/${{ github.repository }}"
