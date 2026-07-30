@@ -168,4 +168,5 @@ button#mode-toggle {
     border: var(--border-width) solid var(--text);
     background: var(--card-bg);
     color: var(--text);
+    cursor: pointer;
 }
