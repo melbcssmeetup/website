@@ -180,15 +180,25 @@
             document.body.classList.toggle("dark-mode", newScheme === "dark");
         });
         const styleSelect = document.getElementById("style-select");
-        const themeLink = document.getElementById("theme-link");
+        let themeLink = document.getElementById("theme-link");
         const theme = (new URLSearchParams(window.location.search).get("theme")) + ".css";
         const validThemes = [...styleSelect.options].map(({ value }) => value);
         const initialTheme = validThemes.includes(theme) ? theme : "default.css";
         styleSelect.value = initialTheme;
         themeLink.setAttribute("href", `styles/${initialTheme}`);
+
         styleSelect.addEventListener("change", (event) => {
             const fileName = event.target.value;
-            themeLink.setAttribute("href", `styles/${fileName}`);
+            const newThemeLink = document.createElement("link");
+            newThemeLink.setAttribute("rel", "stylesheet");
+            newThemeLink.setAttribute("type", "text/css");
+            newThemeLink.setAttribute("href", `styles/${fileName}`);
+            newThemeLink.onload = () => {
+                themeLink.remove();
+                themeLink = newThemeLink;
+            };
+            document.head.appendChild(newThemeLink);
+
             const url = new URL(window.location.href);
             if (fileName === "default.css") {
                 url.searchParams.delete("theme");
