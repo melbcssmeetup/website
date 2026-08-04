@@ -1,0 +1,505 @@
+/* Theme: Super Mario Bros | Author: Rajan232 */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    color-scheme: light dark;
+    font-family: 'Press Start 2P', cursive, monospace, sans-serif;
+
+    /* Super Mario Color Palette */
+    --mario-sky: #5c94fc;
+    --mario-red: #e52521;
+    --mario-yellow: #f8d800;
+    --mario-green: #00a800;
+    --mario-green-dark: #007000;
+    --mario-green-light: #5cbe00;
+    --mario-brick: #d04800;
+    --mario-brick-dark: #802800;
+    --mario-block: #fcb837;
+    --mario-block-shadow: #8c4000;
+    --mario-black: #000000;
+    --mario-white: #ffffff;
+    
+    /* Theme Variables with light-dark() support */
+    --bg: light-dark(var(--mario-sky), #0f0f23);
+    --text: light-dark(#ffffff, #f8f8f8);
+    --card-bg: light-dark(var(--mario-block), #2b1f1d);
+    --btn-bg: light-dark(var(--mario-green), #007000);
+    --btn-text: #ffffff;
+    --accent: light-dark(var(--mario-yellow), #ffe600);
+    --accent-red: light-dark(var(--mario-red), #ff4444);
+}
+
+/* Base Body & Layout */
+img {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+::selection {
+    background-color: var(--mario-red);
+    color: var(--mario-yellow);
+}
+
+html {
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 14px;
+    background-image: 
+        linear-gradient(to bottom, transparent 80%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+body.dark-mode, html.dark-mode {
+    --bg: #0f0f23;
+    --text: #f8f8f8;
+    --card-bg: #221c38;
+    --btn-bg: #007000;
+}
+
+body {
+    display: grid;
+    place-content: center;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 2.5rem 1rem;
+    line-height: 1.8;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Grass / Ground Border at screen bottom */
+body::after {
+    content: '';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 24px;
+    background: #00a800;
+    border-top: 4px solid #000000;
+    box-shadow: inset 0 6px 0 #5cbe00;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Super Mario Warp Pipe Exit on Bottom Right Footer */
+body::before {
+    content: '';
+    position: fixed;
+    bottom: 40px;
+    right: 36px;
+    width: 54px;
+    height: 22px;
+    background: linear-gradient(to right, #005000 0%, #005000 12%, #00a800 12%, #00a800 28%, #7ce010 28%, #7ce010 44%, #00a800 44%, #00a800 80%, #005000 80%, #005000 100%);
+    border: 4px solid #000000;
+    box-shadow: 
+        inset 0 4px 0 #000000, 
+        inset 0 8px 0 #7ce010, 
+        inset 0 -4px 0 #003800;
+    z-index: 12;
+    pointer-events: none;
+}
+
+html::before {
+    content: '';
+    position: fixed;
+    bottom: 16px;
+    right: 42px;
+    width: 42px;
+    height: 28px;
+    background: linear-gradient(to right, #005000 0%, #005000 12%, #00a800 12%, #00a800 28%, #7ce010 28%, #7ce010 44%, #00a800 44%, #00a800 80%, #005000 80%, #005000 100%);
+    border-left: 4px solid #000000;
+    border-right: 4px solid #000000;
+    z-index: 11;
+    pointer-events: none;
+}
+
+/* Header / HUD styling */
+header {
+    margin-inline: auto;
+    max-width: 58ch;
+    margin-bottom: 2rem;
+    text-align: center;
+    background-color: light-dark(var(--mario-brick), #602008);
+    border: 4px solid var(--mario-black);
+    box-shadow: 
+        0 8px 0 rgba(0, 0, 0, 0.4),
+        inset -4px -4px 0 0 var(--mario-brick-dark),
+        inset 4px 4px 0 0 #ff7840;
+    padding: 1.75rem 1.25rem;
+    position: relative;
+    animation: mario-float 3s ease-in-out infinite alternate;
+}
+
+header::before {
+    content: '🍄';
+    position: absolute;
+    top: -16px;
+    left: 16px;
+    font-size: 1.5rem;
+    filter: drop-shadow(2px 2px 0 #000);
+}
+
+header::after {
+    content: '⭐';
+    position: absolute;
+    top: -16px;
+    right: 16px;
+    font-size: 1.5rem;
+    filter: drop-shadow(2px 2px 0 #000);
+    animation: star-spin 2s linear infinite;
+}
+
+hgroup h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: var(--mario-yellow);
+    font-size: 1.6rem;
+    text-shadow: 
+        3px 3px 0 var(--mario-black),
+        -1px -1px 0 var(--mario-black),
+        1px -1px 0 var(--mario-black),
+        -1px 1px 0 var(--mario-black);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+hgroup h1 img {
+    width: 36px;
+    height: 36px;
+    filter: drop-shadow(2px 2px 0 #000);
+}
+
+header p {
+    color: #ffffff;
+    font-size: 0.8rem;
+    text-shadow: 2px 2px 0 var(--mario-black);
+    line-height: 1.8;
+}
+
+/* Main Container */
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    max-width: 58ch;
+}
+
+/* Intro Box */
+main > p {
+    background-color: light-dark(#ffffff, #1a1a3a);
+    color: light-dark(#000000, #ffffff);
+    border: 4px solid var(--mario-black);
+    padding: 1.25rem;
+    box-shadow: 
+        6px 6px 0 var(--mario-black),
+        inset -4px -4px 0 0 light-dark(#e0e0e0, #0a0a1a);
+    font-size: 0.8rem;
+    line-height: 1.8;
+    position: relative;
+}
+
+main > p::before {
+    content: 'WORLD 1-1';
+    position: absolute;
+    top: -12px;
+    left: 12px;
+    background: var(--mario-red);
+    color: #ffffff;
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border: 2px solid var(--mario-black);
+    box-shadow: 2px 2px 0 var(--mario-black);
+}
+
+/* Navigation & Warp Pipe Buttons */
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.link-button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    background: linear-gradient(180deg, var(--mario-green-light) 0%, var(--mario-green) 40%, var(--mario-green-dark) 100%);
+    color: var(--btn-text);
+    text-decoration: none;
+    font-family: inherit;
+    font-size: 0.75rem;
+    border: 4px solid var(--mario-black);
+    box-shadow: 
+        4px 4px 0 var(--mario-black),
+        inset 0 4px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -4px 0 rgba(0, 0, 0, 0.4);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+    user-select: none;
+    text-shadow: 2px 2px 0 var(--mario-black);
+}
+
+.link-button::before {
+    content: '🪙';
+    font-size: 0.9rem;
+    opacity: 0.85;
+    transition: transform 0.2s ease;
+}
+
+.link-button:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 
+        6px 6px 0 var(--mario-black),
+        inset 0 4px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -4px 0 rgba(0, 0, 0, 0.4);
+    background: linear-gradient(180deg, #7ce010 0%, var(--mario-green-light) 40%, var(--mario-green) 100%);
+    color: var(--mario-yellow);
+}
+
+.link-button:hover::before {
+    transform: scale(1.3) rotate(15deg);
+}
+
+.link-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 
+        2px 2px 0 var(--mario-black),
+        inset 0 -2px 0 rgba(255, 255, 255, 0.4),
+        inset 0 4px 0 rgba(0, 0, 0, 0.4);
+}
+
+.icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: var(--mario-yellow);
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: center;
+    filter: drop-shadow(1px 1px 0 #000);
+}
+
+.discord-icon { mask-image: url("/img/discord.svg"); }
+.github-icon { mask-image: url("/img/github.svg"); }
+.linkedin-icon { mask-image: url("/img/linkedin.svg"); }
+.mic-icon { mask-image: url("/img/mic.svg"); }
+.youtube-icon { mask-image: url("/img/youtube.svg"); }
+
+/* Section Titles */
+h2 {
+    color: var(--mario-yellow);
+    font-size: 1.1rem;
+    text-shadow: 
+        2px 2px 0 var(--mario-black),
+        -1px -1px 0 var(--mario-black),
+        1px -1px 0 var(--mario-black),
+        -1px 1px 0 var(--mario-black);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+h2::before {
+    content: '👑';
+    font-size: 1rem;
+}
+
+/* Event Article - Question Mark Block Style */
+article {
+    background-color: light-dark(var(--mario-block), #4a3418);
+    color: light-dark(#000000, #ffffff);
+    padding: 1.5rem;
+    border: 4px solid var(--mario-black);
+    box-shadow: 
+        6px 6px 0 var(--mario-black),
+        inset -4px -4px 0 0 light-dark(var(--mario-block-shadow), #201204),
+        inset 4px 4px 0 0 light-dark(#ffe090, #7a5c30);
+    position: relative;
+    overflow: hidden;
+}
+
+article::after {
+    content: '?';
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: light-dark(rgba(0,0,0,0.15), rgba(255,255,255,0.15));
+    font-family: 'Press Start 2P', monospace;
+}
+
+article h3 {
+    font-size: 1rem;
+    color: light-dark(var(--mario-red), #ff5555);
+    text-shadow: 1px 1px 0 var(--mario-black);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+}
+
+time {
+    display: inline-block;
+    background: var(--mario-black);
+    color: var(--mario-yellow);
+    font-size: 0.75rem;
+    padding: 0.4rem 0.75rem;
+    border: 2px solid var(--mario-yellow);
+    box-shadow: 2px 2px 0 var(--mario-black);
+    margin-bottom: 0.75rem;
+}
+
+time::before {
+    content: '⏰ ';
+}
+
+address {
+    font-style: normal;
+    background: light-dark(#ffffff, #1a1a2e);
+    color: light-dark(#000000, #ffffff);
+    border: 3px solid var(--mario-black);
+    padding: 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    margin-top: 0.5rem;
+    box-shadow: 3px 3px 0 var(--mario-black);
+}
+
+/* Links */
+a:not(.link-button) {
+    color: light-dark(var(--mario-red), var(--mario-yellow));
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    font-weight: bold;
+}
+
+a:not(.link-button):hover {
+    color: var(--mario-yellow);
+    background-color: var(--mario-black);
+    padding: 2px 4px;
+}
+
+/* Controls Section (Pause Menu / HUD Style) */
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: light-dark(#000000, #141428);
+    color: #ffffff;
+    border: 4px solid var(--mario-yellow);
+    padding: 1.25rem;
+    box-shadow: 
+        6px 6px 0 var(--mario-black),
+        inset 0 0 0 2px var(--mario-black);
+    position: relative;
+}
+
+.controls::before {
+    content: '🎮 PAUSE MENU';
+    font-size: 0.75rem;
+    color: var(--mario-yellow);
+    text-align: center;
+    letter-spacing: 2px;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.controls label {
+    font-size: 0.7rem;
+    color: var(--mario-yellow);
+    text-transform: uppercase;
+}
+
+select,
+button#mode-toggle {
+    font-family: inherit;
+    font-size: 0.75rem;
+    padding: 0.6rem 0.8rem;
+    border: 3px solid var(--mario-black);
+    background: var(--mario-brick);
+    color: #ffffff;
+    box-shadow: 
+        3px 3px 0 var(--mario-black),
+        inset -2px -2px 0 0 var(--mario-brick-dark),
+        inset 2px 2px 0 0 #ff7840;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 var(--mario-black);
+}
+
+select:hover,
+button#mode-toggle:hover {
+    background: var(--mario-red);
+    color: var(--mario-yellow);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--mario-black);
+}
+
+select:active,
+button#mode-toggle:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 var(--mario-black);
+}
+
+select option {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.controls a {
+    font-size: 0.7rem;
+    text-align: center;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+/* Keyframe Animations */
+@keyframes mario-float {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-6px); }
+}
+
+@keyframes star-spin {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    html {
+        font-size: 12px;
+    }
+    
+    header {
+        padding: 1.25rem 0.75rem;
+    }
+
+    hgroup h1 {
+        font-size: 1.2rem;
+    }
+    
+    .link-button {
+        padding: 0.75rem 0.9rem;
+        font-size: 0.7rem;
+    }
+
+    article::after {
+        font-size: 1.6rem;
+    }
+}
