@@ -26,6 +26,15 @@
     --mario-black: #000000;
     --mario-white: #ffffff;
     
+    /* Fallback Theme Variables */
+    --bg: var(--mario-sky);
+    --text: #ffffff;
+    --card-bg: var(--mario-block);
+    --btn-bg: var(--mario-green);
+    --btn-text: #ffffff;
+    --accent: var(--mario-yellow);
+    --accent-red: var(--mario-red);
+
     /* Theme Variables with light-dark() support */
     --bg: light-dark(var(--mario-sky), #0f0f23);
     --text: light-dark(#ffffff, #f8f8f8);
@@ -38,8 +47,10 @@
 
 /* Base Body & Layout */
 img {
-    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
+    image-rendering: pixelated;
 }
 
 ::selection {
@@ -48,6 +59,7 @@ img {
 }
 
 html {
+    background-color: var(--mario-sky);
     background-color: var(--bg);
     color: var(--text);
     min-height: 100vh;
@@ -61,6 +73,8 @@ body.dark-mode, html.dark-mode {
     --text: #f8f8f8;
     --card-bg: #221c38;
     --btn-bg: #007000;
+    --accent: #ffe600;
+    --accent-red: #ff4444;
 }
 
 body {
@@ -72,6 +86,70 @@ body {
     line-height: 1.8;
     position: relative;
     overflow-x: hidden;
+}
+
+/* Fixed Background Mario Clouds (Authentic NES Super Mario Bros Palette & Pixel Art) */
+html::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 24px;
+    pointer-events: none;
+    z-index: -1;
+    background-image: 
+        /* NES Small Cloud 1 (Top-Left) */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24' width='64' height='48'%3E%3Cpath fill='%23000' d='M10 2h12v2H10zM6 4h4v2H6zM22 4h4v2h-4zM4 6h2v4H4zM26 6h2v4h-2zM2 10h2v8H2zM28 10h2v8h-2zM4 18h2v2H4zM26 18h2v2h-2zM6 20h20v2H6z'/%3E%3Cpath fill='%23fff' d='M10 4h12v2H10zM6 6h20v4H6zM4 10h24v8H4zM6 18h20v2H6z'/%3E%3Cpath fill='%233890fc' d='M6 14h20v2H6zM4 16h24v2H4zM8 18h16v2H8z'/%3E%3C/svg%3E"),
+        /* NES Large Triple-Lobe Cloud 2 (Top-Center) */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 24' width='128' height='48'%3E%3Cpath fill='%23000' d='M10 2h10v2H10zM27 2h10v2H27zM44 2h10v2H44zM6 4h4v2H6zM20 4h7v2h-7zM37 4h7v2h-7zM54 4h4v2h-4zM4 6h2v4H4zM58 6h2v4h-2zM2 10h2v8H2zM60 10h2v8h-2zM4 18h2v2H4zM58 18h2v2h-2zM6 20h52v2H6z'/%3E%3Cpath fill='%23fff' d='M10 4h10v2H10zM27 4h10v2H27zM44 4h10v2H44zM6 6h52v4H6zM4 10h56v8H4zM6 18h52v2H6z'/%3E%3Cpath fill='%233890fc' d='M6 14h52v2H6zM4 16h56v2H4zM8 18h48v2H8z'/%3E%3C/svg%3E"),
+        /* NES Small Cloud 3 (Top-Right) */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24' width='64' height='48'%3E%3Cpath fill='%23000' d='M10 2h12v2H10zM6 4h4v2H6zM22 4h4v2h-4zM4 6h2v4H4zM26 6h2v4h-2zM2 10h2v8H2zM28 10h2v8h-2zM4 18h2v2H4zM26 18h2v2h-2zM6 20h20v2H6z'/%3E%3Cpath fill='%23fff' d='M10 4h12v2H10zM6 6h20v4H6zM4 10h24v8H4zM6 18h20v2H6z'/%3E%3Cpath fill='%233890fc' d='M6 14h20v2H6zM4 16h24v2H4zM8 18h16v2H8z'/%3E%3C/svg%3E"),
+        /* NES Large Triple-Lobe Cloud 4 (Upper-Right) */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 24' width='128' height='48'%3E%3Cpath fill='%23000' d='M10 2h10v2H10zM27 2h10v2H27zM44 2h10v2H44zM6 4h4v2H6zM20 4h7v2h-7zM37 4h7v2h-7zM54 4h4v2h-4zM4 6h2v4H4zM58 6h2v4h-2zM2 10h2v8H2zM60 10h2v8h-2zM4 18h2v2H4zM58 18h2v2h-2zM6 20h52v2H6z'/%3E%3Cpath fill='%23fff' d='M10 4h10v2H10zM27 4h10v2H27zM44 4h10v2H44zM6 6h52v4H6zM4 10h56v8H4zM6 18h52v2H6z'/%3E%3Cpath fill='%233890fc' d='M6 14h52v2H6zM4 16h56v2H4zM8 18h48v2H8z'/%3E%3C/svg%3E"),
+        /* NES Small Cloud 5 (Mid-Left) */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24' width='64' height='48'%3E%3Cpath fill='%23000' d='M10 2h12v2H10zM6 4h4v2H6zM22 4h4v2h-4zM4 6h2v4H4zM26 6h2v4h-2zM2 10h2v8H2zM28 10h2v8h-2zM4 18h2v2H4zM26 18h2v2h-2zM6 20h20v2H6z'/%3E%3Cpath fill='%23fff' d='M10 4h12v2H10zM6 6h20v4H6zM4 10h24v8H4zM6 18h20v2H6z'/%3E%3Cpath fill='%233890fc' d='M6 14h20v2H6zM4 16h24v2H4zM8 18h16v2H8z'/%3E%3C/svg%3E"),
+        /* NES Large Triple-Lobe Cloud 6 (Mid-Right) */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 24' width='128' height='48'%3E%3Cpath fill='%23000' d='M10 2h10v2H10zM27 2h10v2H27zM44 2h10v2H44zM6 4h4v2H6zM20 4h7v2h-7zM37 4h7v2h-7zM54 4h4v2h-4zM4 6h2v4H4zM58 6h2v4h-2zM2 10h2v8H2zM60 10h2v8h-2zM4 18h2v2H4zM58 18h2v2h-2zM6 20h52v2H6z'/%3E%3Cpath fill='%23fff' d='M10 4h10v2H10zM27 4h10v2H27zM44 4h10v2H44zM6 6h52v4H6zM4 10h56v8H4zM6 18h52v2H6z'/%3E%3Cpath fill='%233890fc' d='M6 14h52v2H6zM4 16h56v2H4zM8 18h48v2H8z'/%3E%3C/svg%3E"),
+        /* NES Small Cloud 7 (Lower-Left) */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24' width='64' height='48'%3E%3Cpath fill='%23000' d='M10 2h12v2H10zM6 4h4v2H6zM22 4h4v2h-4zM4 6h2v4H4zM26 6h2v4h-2zM2 10h2v8H2zM28 10h2v8h-2zM4 18h2v2H4zM26 18h2v2h-2zM6 20h20v2H6z'/%3E%3Cpath fill='%23fff' d='M10 4h12v2H10zM6 6h20v4H6zM4 10h24v8H4zM6 18h20v2H6z'/%3E%3Cpath fill='%233890fc' d='M6 14h20v2H6zM4 16h24v2H4zM8 18h16v2H8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+    background-position: 
+        3vw 30px,
+        28vw 50px,
+        62vw 25px,
+        84vw 110px,
+        10vw 180px,
+        65vw 230px,
+        18vw 310px;
+    background-size: 
+        68px 50px,
+        144px 54px,
+        76px 56px,
+        150px 56px,
+        72px 54px,
+        140px 52px,
+        68px 50px;
+}
+
+/* Dark Mode Fixed Background Clouds (NES Authentic Dark Palette) */
+html.dark-mode::after,
+html:has(body.dark-mode)::after {
+    background-image: 
+        /* NES Dark Small Cloud 1 */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24' width='64' height='48'%3E%3Cpath fill='%23000' d='M10 2h12v2H10zM6 4h4v2H6zM22 4h4v2h-4zM4 6h2v4H4zM26 6h2v4h-2zM2 10h2v8H2zM28 10h2v8h-2zM4 18h2v2H4zM26 18h2v2h-2zM6 20h20v2H6z'/%3E%3Cpath fill='%23222244' d='M10 4h12v2H10zM6 6h20v4H6zM4 10h24v8H4zM6 18h20v2H6z'/%3E%3Cpath fill='%23484890' d='M6 14h20v2H6zM4 16h24v2H4zM8 18h16v2H8z'/%3E%3C/svg%3E"),
+        /* NES Dark Large Triple-Lobe Cloud 2 */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 24' width='128' height='48'%3E%3Cpath fill='%23000' d='M10 2h10v2H10zM27 2h10v2H27zM44 2h10v2H44zM6 4h4v2H6zM20 4h7v2h-7zM37 4h7v2h-7zM54 4h4v2h-4zM4 6h2v4H4zM58 6h2v4h-2zM2 10h2v8H2zM60 10h2v8h-2zM4 18h2v2H4zM58 18h2v2h-2zM6 20h52v2H6z'/%3E%3Cpath fill='%23222244' d='M10 4h10v2H10zM27 4h10v2H27zM44 4h10v2H44zM6 6h52v4H6zM4 10h56v8H4zM6 18h52v2H6z'/%3E%3Cpath fill='%23484890' d='M6 14h52v2H6zM4 16h56v2H4zM8 18h48v2H8z'/%3E%3C/svg%3E"),
+        /* NES Dark Small Cloud 3 */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24' width='64' height='48'%3E%3Cpath fill='%23000' d='M10 2h12v2H10zM6 4h4v2H6zM22 4h4v2h-4zM4 6h2v4H4zM26 6h2v4h-2zM2 10h2v8H2zM28 10h2v8h-2zM4 18h2v2H4zM26 18h2v2h-2zM6 20h20v2H6z'/%3E%3Cpath fill='%23222244' d='M10 4h12v2H10zM6 6h20v4H6zM4 10h24v8H4zM6 18h20v2H6z'/%3E%3Cpath fill='%23484890' d='M6 14h20v2H6zM4 16h24v2H4zM8 18h16v2H8z'/%3E%3C/svg%3E"),
+        /* NES Dark Large Triple-Lobe Cloud 4 */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 24' width='128' height='48'%3E%3Cpath fill='%23000' d='M10 2h10v2H10zM27 2h10v2H27zM44 2h10v2H44zM6 4h4v2H6zM20 4h7v2h-7zM37 4h7v2h-7zM54 4h4v2h-4zM4 6h2v4H4zM58 6h2v4h-2zM2 10h2v8H2zM60 10h2v8h-2zM4 18h2v2H4zM58 18h2v2h-2zM6 20h52v2H6z'/%3E%3Cpath fill='%23222244' d='M10 4h10v2H10zM27 4h10v2H27zM44 4h10v2H44zM6 6h52v4H6zM4 10h56v8H4zM6 18h52v2H6z'/%3E%3Cpath fill='%23484890' d='M6 14h52v2H6zM4 16h56v2H4zM8 18h48v2H8z'/%3E%3C/svg%3E"),
+        /* NES Dark Small Cloud 5 */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24' width='64' height='48'%3E%3Cpath fill='%23000' d='M10 2h12v2H10zM6 4h4v2H6zM22 4h4v2h-4zM4 6h2v4H4zM26 6h2v4h-2zM2 10h2v8H2zM28 10h2v8h-2zM4 18h2v2H4zM26 18h2v2h-2zM6 20h20v2H6z'/%3E%3Cpath fill='%23222244' d='M10 4h12v2H10zM6 6h20v4H6zM4 10h24v8H4zM6 18h20v2H6z'/%3E%3Cpath fill='%23484890' d='M6 14h20v2H6zM4 16h24v2H4zM8 18h16v2H8z'/%3E%3C/svg%3E"),
+        /* NES Dark Large Triple-Lobe Cloud 6 */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 24' width='128' height='48'%3E%3Cpath fill='%23000' d='M10 2h10v2H10zM27 2h10v2H27zM44 2h10v2H44zM6 4h4v2H6zM20 4h7v2h-7zM37 4h7v2h-7zM54 4h4v2h-4zM4 6h2v4H4zM58 6h2v4h-2zM2 10h2v8H2zM60 10h2v8h-2zM4 18h2v2H4zM58 18h2v2h-2zM6 20h52v2H6z'/%3E%3Cpath fill='%23222244' d='M10 4h10v2H10zM27 4h10v2H27zM44 4h10v2H44zM6 6h52v4H6zM4 10h56v8H4zM6 18h52v2H6z'/%3E%3Cpath fill='%23484890' d='M6 14h52v2H6zM4 16h56v2H4zM8 18h48v2H8z'/%3E%3C/svg%3E"),
+        /* NES Dark Small Cloud 7 */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24' width='64' height='48'%3E%3Cpath fill='%23000' d='M10 2h12v2H10zM6 4h4v2H6zM22 4h4v2h-4zM4 6h2v4H4zM26 6h2v4h-2zM2 10h2v8H2zM28 10h2v8h-2zM4 18h2v2H4zM26 18h2v2h-2zM6 20h20v2H6z'/%3E%3Cpath fill='%23222244' d='M10 4h12v2H10zM6 6h20v4H6zM4 10h24v8H4zM6 18h20v2H6z'/%3E%3Cpath fill='%23484890' d='M6 14h20v2H6zM4 16h24v2H4zM8 18h16v2H8z'/%3E%3C/svg%3E");
 }
 
 /* Grass / Ground Border at screen bottom */
@@ -90,6 +168,26 @@ body::after {
 }
 
 /* Super Mario Warp Pipe Exit on Bottom Right Footer */
+@keyframes pipe-rim-shrink {
+    from {
+        bottom: calc(100vh - 70px);
+        bottom: calc(100svh - 70px);
+    }
+    to {
+        bottom: 40px;
+    }
+}
+
+@keyframes pipe-stem-shrink {
+    from {
+        height: calc(100vh - 82px);
+        height: calc(100svh - 82px);
+    }
+    to {
+        height: 28px;
+    }
+}
+
 body::before {
     content: '';
     position: fixed;
@@ -119,6 +217,18 @@ html::before {
     border-right: 4px solid #000000;
     z-index: 11;
     pointer-events: none;
+}
+
+@supports (animation-timeline: scroll()) {
+    body::before {
+        animation: pipe-rim-shrink linear auto both;
+        animation-timeline: scroll();
+    }
+
+    html::before {
+        animation: pipe-stem-shrink linear auto both;
+        animation-timeline: scroll();
+    }
 }
 
 /* Header / HUD styling */
@@ -287,17 +397,20 @@ nav ul {
     width: 20px;
     height: 20px;
     background-color: var(--mario-yellow);
+    -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
     mask-size: contain;
+    -webkit-mask-position: center;
     mask-position: center;
     filter: drop-shadow(1px 1px 0 #000);
 }
 
-.discord-icon { mask-image: url("/img/discord.svg"); }
-.github-icon { mask-image: url("/img/github.svg"); }
-.linkedin-icon { mask-image: url("/img/linkedin.svg"); }
-.mic-icon { mask-image: url("/img/mic.svg"); }
-.youtube-icon { mask-image: url("/img/youtube.svg"); }
+.discord-icon { -webkit-mask-image: url("/img/discord.svg"); mask-image: url("/img/discord.svg"); }
+.github-icon { -webkit-mask-image: url("/img/github.svg"); mask-image: url("/img/github.svg"); }
+.linkedin-icon { -webkit-mask-image: url("/img/linkedin.svg"); mask-image: url("/img/linkedin.svg"); }
+.mic-icon { -webkit-mask-image: url("/img/mic.svg"); mask-image: url("/img/mic.svg"); }
+.youtube-icon { -webkit-mask-image: url("/img/youtube.svg"); mask-image: url("/img/youtube.svg"); }
 
 /* Section Titles */
 h2 {
@@ -378,6 +491,32 @@ address {
     line-height: 1.6;
     margin-top: 0.5rem;
     box-shadow: 3px 3px 0 var(--mario-black);
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease, color 0.1s ease;
+    cursor: pointer;
+}
+
+article a {
+    display: block;
+    text-decoration: none;
+}
+
+article a:hover {
+    background-color: transparent;
+    padding: 0;
+}
+
+article a:hover address,
+address:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--mario-black);
+    background: light-dark(#fffbe6, #282442);
+    color: light-dark(var(--mario-red), var(--mario-yellow));
+}
+
+article a:active address,
+address:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--mario-black);
 }
 
 /* Links */
