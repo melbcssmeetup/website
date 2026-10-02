@@ -38,7 +38,7 @@
     /* Theme Variables with light-dark() support */
     --bg: light-dark(var(--mario-sky), #0f0f23);
     --text: light-dark(#ffffff, #f8f8f8);
-    --card-bg: light-dark(var(--mario-block), #2b1f1d);
+    --card-bg: light-dark(var(--mario-block), #221c38);
     --btn-bg: light-dark(var(--mario-green), #007000);
     --btn-text: #ffffff;
     --accent: light-dark(var(--mario-yellow), #ffe600);
@@ -66,15 +66,6 @@ html {
     font-size: 14px;
     background-image: 
         linear-gradient(to bottom, transparent 80%, rgba(0, 0, 0, 0.3) 100%);
-}
-
-body.dark-mode, html.dark-mode {
-    --bg: #0f0f23;
-    --text: #f8f8f8;
-    --card-bg: #221c38;
-    --btn-bg: #007000;
-    --accent: #ffe600;
-    --accent-red: #ff4444;
 }
 
 body {
@@ -133,9 +124,8 @@ html::after {
 }
 
 /* Dark Mode Fixed Background Clouds (NES Authentic Dark Palette) */
-html.dark-mode::after,
-html:has(body.dark-mode)::after {
-    background-image: 
+html {
+    --dark-clouds:
         /* NES Dark Small Cloud 1 */
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24' width='64' height='48'%3E%3Cpath fill='%23000' d='M10 2h12v2H10zM6 4h4v2H6zM22 4h4v2h-4zM4 6h2v4H4zM26 6h2v4h-2zM2 10h2v8H2zM28 10h2v8h-2zM4 18h2v2H4zM26 18h2v2h-2zM6 20h20v2H6z'/%3E%3Cpath fill='%23222244' d='M10 4h12v2H10zM6 6h20v4H6zM4 10h24v8H4zM6 18h20v2H6z'/%3E%3Cpath fill='%23484890' d='M6 14h20v2H6zM4 16h24v2H4zM8 18h16v2H8z'/%3E%3C/svg%3E"),
         /* NES Dark Large Triple-Lobe Cloud 2 */
@@ -150,6 +140,19 @@ html:has(body.dark-mode)::after {
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 24' width='128' height='48'%3E%3Cpath fill='%23000' d='M10 2h10v2H10zM27 2h10v2H27zM44 2h10v2H44zM6 4h4v2H6zM20 4h7v2h-7zM37 4h7v2h-7zM54 4h4v2h-4zM4 6h2v4H4zM58 6h2v4h-2zM2 10h2v8H2zM60 10h2v8h-2zM4 18h2v2H4zM58 18h2v2h-2zM6 20h52v2H6z'/%3E%3Cpath fill='%23222244' d='M10 4h10v2H10zM27 4h10v2H27zM44 4h10v2H44zM6 6h52v4H6zM4 10h56v8H4zM6 18h52v2H6z'/%3E%3Cpath fill='%23484890' d='M6 14h52v2H6zM4 16h56v2H4zM8 18h48v2H8z'/%3E%3C/svg%3E"),
         /* NES Dark Small Cloud 7 */
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 24' width='64' height='48'%3E%3Cpath fill='%23000' d='M10 2h12v2H10zM6 4h4v2H6zM22 4h4v2h-4zM4 6h2v4H4zM26 6h2v4h-2zM2 10h2v8H2zM28 10h2v8h-2zM4 18h2v2H4zM26 18h2v2h-2zM6 20h20v2H6z'/%3E%3Cpath fill='%23222244' d='M10 4h12v2H10zM6 6h20v4H6zM4 10h24v8H4zM6 18h20v2H6z'/%3E%3Cpath fill='%23484890' d='M6 14h20v2H6zM4 16h24v2H4zM8 18h16v2H8z'/%3E%3C/svg%3E");
+}
+
+/* Dark mode is the one the system asks for, flipped by the dark/light
+   toggle, which is a checkbox, so this needs no JavaScript. */
+@media (prefers-color-scheme: dark) {
+    html:not(:has(#mode-toggle-checkbox:checked))::after {
+        background-image: var(--dark-clouds);
+    }
+}
+@media (prefers-color-scheme: light) {
+    html:has(#mode-toggle-checkbox:checked)::after {
+        background-image: var(--dark-clouds);
+    }
 }
 
 /* Grass / Ground Border at screen bottom */
@@ -566,7 +569,7 @@ a:not(.link-button):hover {
 }
 
 select,
-button#mode-toggle {
+#mode-toggle {
     font-family: inherit;
     font-size: 0.75rem;
     padding: 0.6rem 0.8rem;
@@ -582,7 +585,7 @@ button#mode-toggle {
 }
 
 select:hover,
-button#mode-toggle:hover {
+#mode-toggle:hover {
     background: var(--mario-red);
     color: var(--mario-yellow);
     transform: translate(-1px, -1px);
@@ -590,7 +593,7 @@ button#mode-toggle:hover {
 }
 
 select:active,
-button#mode-toggle:active {
+#mode-toggle:active {
     transform: translate(1px, 1px);
     box-shadow: 1px 1px 0 var(--mario-black);
 }

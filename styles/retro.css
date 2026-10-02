@@ -162,7 +162,7 @@ a:not(.button) {
 }
 
 select,
-button#mode-toggle {
+#mode-toggle {
     font-family: inherit;
     padding: 0.2rem;
     border: var(--border-width) solid var(--text);

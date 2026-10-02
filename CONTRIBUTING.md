@@ -34,6 +34,17 @@ To ensure your theme is recognized and easy to manage, please follow these steps
 3. Add a CSS comment as the first line with the theme name and author.
     - Example: `/* Theme: Synthwave | Author: AsbedB */`
 4. Use Variables - currently the site supports dark and light mode using variables, if you would like a toggle to be functional you can make use of some native css!
+    - The dark/light toggle is a checkbox that flips `color-scheme`, with no JavaScript, so any colour written with `light-dark()` follows it.
+    - For anything else that changes in dark mode, such as a background image, the toggle flips the system's choice, so dark mode is either of these (Mario's clouds are an example):
+
+```css
+@media (prefers-color-scheme: dark) {
+    html:not(:has(#mode-toggle-checkbox:checked)) { /* dark */ }
+}
+@media (prefers-color-scheme: light) {
+    html:has(#mode-toggle-checkbox:checked) { /* dark */ }
+}
+```
 5. Register your theme: create `_themes/<themename>.md`, named like your CSS file, with your theme's name and yours:
 
 ```markdown
