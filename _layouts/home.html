@@ -1,0 +1,323 @@
+{% comment %}
+    The home page, once per theme. index.html renders it in the default
+    theme, and every file in _themes/ renders it again at /<name>/ with
+    styles/<name>.css linked, so a theme is a page of its own: choosing one
+    is following a link, and works with JavaScript off. URLs here start at
+    the root, because the same page is served one directory down.
+{% endcomment %}
+{%- if page.collection == "themes" -%}
+    {%- assign current = page.slug -%}
+{%- else -%}
+    {%- assign current = "default" -%}
+{%- endif -%}
+{%- assign themes = site.themes | sort: "title" -%}
+<!doctype html>
+<html lang="en-AU">
+    <head>
+        <meta charset="UTF-8" />
+        <script>
+            // Links shared before each theme had a page of its own say
+            // /?theme=mario. The page is /mario/.
+            const sharedTheme = new URLSearchParams(location.search).get("theme");
+            if ({{ themes | map: "slug" | jsonify }}.includes(sharedTheme)) {
+                location.replace(`/${sharedTheme}/`);
+            }
+        </script>
+        <link rel="icon" type="image/svg+xml" href="/img/logo.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            /* The controls need no JavaScript: each is a checkbox, as
+               Wikipedia's language menu is, and a selector reads it. This
+               sits ahead of the theme's stylesheet, so a theme can restyle
+               all of it. */
+
+            /* The dark/light toggle flips the colour scheme from the one
+               the system asks for, and every light-dark() colour follows. */
+            @media (prefers-color-scheme: light) {
+                :root:has(#mode-toggle-checkbox:checked) {
+                    color-scheme: dark;
+                }
+            }
+            @media (prefers-color-scheme: dark) {
+                :root:has(#mode-toggle-checkbox:checked) {
+                    color-scheme: light;
+                }
+            }
+
+            /* Each checkbox is laid invisibly over its button, so it is
+               where the button is for a screen reader or a finger, and the
+               keyboard reaches it as the checkbox it is. The pointer goes
+               through it to the button, which is in a label, so a press
+               anywhere on the button toggles it, border and all, and the
+               theme's :hover and :active on the button apply. */
+            .theme-menu-checkbox,
+            .mode-toggle-checkbox {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                opacity: 0;
+                pointer-events: none;
+            }
+            .theme-menu-checkbox:focus-visible ~ .theme-menu-label,
+            #mode-toggle:has(> .mode-toggle-checkbox:focus-visible) {
+                outline: 2px solid;
+                outline-offset: 2px;
+            }
+
+            /* The toggle's label has no box, so the button inside it is
+               laid out where the <button> it replaces was. */
+            .mode-toggle-label {
+                display: contents;
+            }
+            /* The toggle was a <button>, and every theme styles it as one.
+               A button inherits none of the text styles around it, so this
+               starts it from a button's. In a layer, so that any rule of
+               the theme's wins, as it did over the browser's own. Chrome
+               and Safari size a button's text with -webkit-small-control,
+               which Firefox ignores, keeping the size before it. */
+            @layer button {
+                #mode-toggle {
+                    position: relative;
+                    display: inline-block;
+                    font-size: 13.3333px;
+                    font: -webkit-small-control;
+                    line-height: normal;
+                    letter-spacing: normal;
+                    word-spacing: normal;
+                    text-transform: none;
+                    text-indent: 0;
+                    text-shadow: none;
+                    text-align: center;
+                }
+            }
+
+            /* The theme menu's checkbox holds whether it is open, and each
+               theme in it is a link to that theme's page. */
+            .theme-menu {
+                position: relative;
+            }
+            .theme-menu-arrow {
+                margin-inline-start: auto;
+                font-size: 0.75em;
+                transition: rotate 0.1s;
+            }
+            .theme-menu-checkbox:checked ~ .theme-menu-label .theme-menu-arrow {
+                rotate: 180deg;
+            }
+            .theme-menu-content {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                z-index: 50;
+                min-width: 100%;
+                margin-top: 0.25rem;
+                padding: 0.5rem 1rem;
+                list-style: none;
+                background: Canvas;
+                color: CanvasText;
+                border: 1px solid;
+                box-shadow: 0 2px 6px -1px rgb(0 0 0 / 0.2);
+                opacity: 0;
+                visibility: hidden;
+                transition-property: opacity, visibility;
+                transition-duration: 0.1s;
+            }
+            .theme-menu-checkbox:checked ~ .theme-menu-content {
+                opacity: 1;
+                visibility: visible;
+            }
+            .theme-menu-content [aria-current] {
+                font-weight: bold;
+                text-decoration: none;
+            }
+            /* Choosing a theme loads its page; where the browser can, the
+               old page fades into the new one. */
+            @media (prefers-reduced-motion: no-preference) {
+                @view-transition {
+                    navigation: auto;
+                }
+            }
+        </style>
+        <link id="theme-link" rel="stylesheet" href="/styles/{{ current }}.css" />
+        {%- if current != "default" %}
+        <link rel="canonical" href="https://melbcss.com/" />
+        {%- endif %}
+        <title>Melbourne CSS Meetup</title>
+        <meta
+            name="description"
+            content="A community in Melbourne that holds meetups to share CSS knowledge! Often over pizza & drinks."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.melbcss.com/" />
+        <meta property="og:title" content="Melbourne CSS Meetup" />
+        <meta
+            property="og:description"
+            content="A community in Melbourne that holds meetups to share CSS knowledge! Often over pizza & drinks."
+        />
+        <meta property="og:image" content="https://melbcss.com/img/logo.png" />
+        <meta property="og:image:alt" content="Melbourne CSS Meetup Logo" />
+        <meta property="og:site_name" content="MelbCSS" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://www.melbcss.com/" />
+        <meta name="twitter:title" content="Melbourne CSS Meetup" />
+        <meta
+            name="twitter:description"
+            content="A community in Melbourne that holds meetups to share CSS knowledge!"
+        />
+        <meta name="twitter:image" content="https://melbcss.com/img/logo.png" />
+    </head>
+    <body>
+        <header>
+            <hgroup>
+                <h1>
+                    <img
+                        src="/img/logo.svg"
+                        alt="The primary rebeccapurple logo of the CSS specification."
+                        width="40"
+                        height="40"
+                        aria-hidden="true"
+                    />
+                    Melbourne CSS
+                </h1>
+                <p>
+                    A community in Melbourne that holds meetups to share CSS
+                    knowledge! Often over pizza & drinks.
+                </p>
+            </hgroup>
+        </header>
+        <main>
+            <p>
+                Anyone interested in CSS is welcome to join, whether you're a
+                complete beginner or seasoned expert. Meetups typically take
+                place on the first Tuesday of every second month.
+            </p>
+            <nav aria-labelledby="links-title">
+                <ul>
+                    <li>
+                        <a
+                            class="link-button"
+                            href="https://discord.gg/QQS82ZQfDt"
+                            target="_blank"
+                        >
+                            <span
+                                class="icon discord-icon"
+                                aria-hidden="true"
+                            ></span>
+                            Chat on Discord
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            class="link-button"
+                            href="https://www.youtube.com/@melcss"
+                            target="_blank"
+                        >
+                            <span
+                                class="icon youtube-icon"
+                                aria-hidden="true"
+                            ></span>
+                            Watch on YouTube
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            class="link-button"
+                            href="https://github.com/melbcssmeetup"
+                            target="_blank"
+                        >
+                            <span
+                                class="icon github-icon"
+                                aria-hidden="true"
+                            ></span>
+                            Follow on GitHub
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            class="link-button"
+                            href="https://forms.gle/kXoSZ6RrkELmjgJy6"
+                            target="_blank"
+                        >
+                            <span
+                                class="icon mic-icon"
+                                aria-hidden="true"
+                            ></span>
+                            Give a Talk
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            class="link-button"
+                            href="https://www.linkedin.com/in/zachjensz"
+                            target="_blank"
+                        >
+                            <span
+                                class="icon linkedin-icon"
+                                aria-hidden="true"
+                            ></span>
+                            Your host Zach Jensz
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <section aria-labelledby="events-title">
+                <h2 id="events-title">Upcoming Events</h2>
+                <article>
+                    <h3>MelbCSS Meetup</h3>
+                    <time datetime="2026-10-06T17:30+1000"
+                        >5:30 PM, Tuesday 6th October</time
+                    >
+                    <a
+                        href=""
+                        /*target="_blank"*/
+                    >
+                        <address>
+                            TBD
+                        </address>
+                    </a>
+                </article>
+            </section>
+            <section class="controls">
+                <label class="mode-toggle-label">
+                    <span id="mode-toggle" class="link-button">
+                        <input
+                            type="checkbox"
+                            id="mode-toggle-checkbox"
+                            class="mode-toggle-checkbox"
+                            autocomplete="off"
+                            aria-labelledby="mode-toggle-text"
+                        />
+                        <span id="mode-toggle-text" aria-hidden="true">Toggle Dark/Light</span>
+                    </span>
+                </label>
+                <label id="themes-label" for="theme-menu-checkbox">Community Themes:</label>
+                <div class="theme-menu">
+                    <input
+                        type="checkbox"
+                        id="theme-menu-checkbox"
+                        class="theme-menu-checkbox"
+                        autocomplete="off"
+                    />
+                    <label for="theme-menu-checkbox" class="link-button theme-menu-label">
+                        {% if current == "default" %}Default{% else %}{{ page.title }} by {{ page.author }}{% endif %}
+                        <span class="theme-menu-arrow" aria-hidden="true">▼</span>
+                    </label>
+                    <ul class="theme-menu-content" aria-labelledby="themes-label">
+                        <li><a href="/"{% if current == "default" %} aria-current="page"{% endif %}>Default</a></li>
+                        {%- for theme in themes %}
+                        <li><a href="{{ theme.url }}"{% if theme.slug == current %} aria-current="page"{% endif %}>{{ theme.title }} by {{ theme.author }}</a></li>
+                        {%- endfor %}
+                    </ul>
+                </div>
+                <a
+                    href="https://github.com/melbcssmeetup/website"
+                    target="_blank"
+                >
+                    Want to make a theme? Click Here!
+                </a>
+            </section>
+        </main>
+    </body>
+</html>

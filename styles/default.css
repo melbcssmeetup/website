@@ -100,7 +100,7 @@ a:not(.button):hover {
 }
 
 select,
-button#mode-toggle {
+#mode-toggle {
     font-family: inherit;
     padding: 0.5rem;
     border: var(--border-width) solid var(--text);

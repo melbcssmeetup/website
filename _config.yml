@@ -1,0 +1,14 @@
+# GitHub Pages builds this site with Jekyll. Each file in _themes/ becomes a
+# copy of the home page at /<name>/ with styles/<name>.css linked, so every
+# theme has a URL of its own that works without JavaScript.
+collections:
+  themes:
+    output: true
+    permalink: /:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: themes
+    values:
+      layout: home

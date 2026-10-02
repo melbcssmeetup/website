@@ -7,7 +7,8 @@
     transition: transform 0.5s ease-out;
 }
 
-*:focus {
+*:focus:not(.mode-toggle-checkbox, .theme-menu-checkbox),
+#mode-toggle:focus-within {
     transform: scale(1.5);
     transition: transform 0.5s ease-out;
 }
@@ -200,7 +201,7 @@ a:not(.button):hover {
 }
 
 select,
-button#mode-toggle {
+#mode-toggle {
     font-family: inherit;
     padding: 0.5rem;
     border: var(--border-width) solid var(--text);

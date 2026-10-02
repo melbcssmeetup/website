@@ -34,15 +34,39 @@ To ensure your theme is recognized and easy to manage, please follow these steps
 3. Add a CSS comment as the first line with the theme name and author.
     - Example: `/* Theme: Synthwave | Author: AsbedB */`
 4. Use Variables - currently the site supports dark and light mode using variables, if you would like a toggle to be functional you can make use of some native css!
-5. Register your theme: Open `index.html` and locate the `<select id="style-select">` tag. Add a new `<option>` with your filename as the value:
+    - The dark/light toggle is a checkbox that flips `color-scheme`, with no JavaScript, so any colour written with `light-dark()` follows it.
+    - For anything else that changes in dark mode, such as a background image, the toggle flips the system's choice, so dark mode is either of these (Mario's clouds are an example):
 
-```html
-<select id="style-select" autocomplete="off">
-    <option value="default.css">Default</option>
-    <!-- Add yours below -->
-    <option value="synthwave.css">Synthwave by AsbedB</option>
-</select>
+```css
+@media (prefers-color-scheme: dark) {
+    html:not(:has(#mode-toggle-checkbox:checked)) { /* dark */ }
+}
+@media (prefers-color-scheme: light) {
+    html:has(#mode-toggle-checkbox:checked) { /* dark */ }
+}
 ```
+5. Register your theme: create `_themes/<themename>.md`, named like your CSS file, with your theme's name and yours:
+
+```markdown
+---
+title: Synthwave
+author: AsbedB
+---
+```
+
+That is all it takes: your theme joins the theme picker, and gets a page of its own at `/<themename>/` (for example `https://melbcss.com/synthwave/`), which works even with JavaScript turned off.
+
+### Previewing your theme
+
+GitHub Pages builds the site with [Jekyll](https://jekyllrb.com/), which turns `_layouts/home.html` into the home page and one page per theme. To build and serve it locally the same way, with [Docker](https://www.docker.com/) running, from the repository's folder:
+
+```Bash
+docker run --rm -p 4000:4000 -v "$PWD:/site" -e RUBYOPT=-rgithub-pages \
+    --entrypoint bundle ghcr.io/actions/jekyll-build-pages:v1.0.13 \
+    exec jekyll serve -s /site -d /tmp/site -H 0.0.0.0 --watch --force_polling
+```
+
+Then open http://localhost:4000/<themename>/. The site rebuilds when you save a file; reload the page to see the change.
 
 ### Checklist
 
@@ -50,8 +74,8 @@ Before submitting your Pull Request, please ensure:
 
 - [ ] My file follows the naming convention: themename.css.
 - [ ] My CSS file starts with a comment containing the theme name and author.
-- [ ] I have added my theme as an `<option>` in the index.html select box.
-- [ ] I have tested select and other toggles with my theme active.
+- [ ] I have added `_themes/<themename>.md` with my theme's title and author.
+- [ ] I have tested the theme menu and other toggles with my theme active. The menu's button is a `.link-button`, and its list is `.theme-menu-content`.
 - [ ] I have removed any unnecessary "test" code or debug borders.
 
 ### Submitting a Pull Request (PR)
