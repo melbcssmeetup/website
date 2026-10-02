@@ -1,10 +1,102 @@
+{% comment %}
+    The home page, once per theme. index.html renders it in the default
+    theme, and every file in _themes/ renders it again at /<name>/ with
+    styles/<name>.css linked, so a theme is a page of its own: choosing one
+    is following a link, and works with JavaScript off. URLs here start at
+    the root, because the same page is served one directory down.
+{% endcomment %}
+{%- if page.collection == "themes" -%}
+    {%- assign current = page.slug -%}
+{%- else -%}
+    {%- assign current = "default" -%}
+{%- endif -%}
+{%- assign themes = site.themes | sort: "title" -%}
 <!doctype html>
 <html lang="en-AU">
     <head>
         <meta charset="UTF-8" />
-        <link rel="icon" type="image/svg+xml" href="img/logo.svg" />
+        <script>
+            // Links shared before each theme had a page of its own say
+            // /?theme=mario. The page is /mario/.
+            const sharedTheme = new URLSearchParams(location.search).get("theme");
+            if ({{ themes | map: "slug" | jsonify }}.includes(sharedTheme)) {
+                location.replace(`/${sharedTheme}/`);
+            }
+        </script>
+        <link rel="icon" type="image/svg+xml" href="/img/logo.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link id="theme-link" rel="stylesheet" href="styles/default.css" />
+        <style>
+            /* The theme menu needs no JavaScript: a checkbox holds whether
+               it is open, as Wikipedia's language menu does, and each theme
+               in it is a link to that theme's page. This sits ahead of the
+               theme's stylesheet, so a theme can restyle all of it. */
+            .theme-menu {
+                position: relative;
+            }
+            /* Laid over the button, so it is where the button is for a
+               screen reader or a finger, and the keyboard reaches it as the
+               checkbox it is. The pointer goes through it to the label,
+               which toggles it, so the theme's .link-button:hover still
+               applies. */
+            .theme-menu-checkbox {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                opacity: 0;
+                pointer-events: none;
+            }
+            .theme-menu-checkbox:focus-visible ~ .theme-menu-label {
+                outline: 2px solid;
+                outline-offset: 2px;
+            }
+            .theme-menu-arrow {
+                margin-inline-start: auto;
+                font-size: 0.75em;
+                transition: rotate 0.1s;
+            }
+            .theme-menu-checkbox:checked ~ .theme-menu-label .theme-menu-arrow {
+                rotate: 180deg;
+            }
+            .theme-menu-content {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                z-index: 50;
+                min-width: 100%;
+                margin-top: 0.25rem;
+                padding: 0.5rem 1rem;
+                list-style: none;
+                background: Canvas;
+                color: CanvasText;
+                border: 1px solid;
+                box-shadow: 0 2px 6px -1px rgb(0 0 0 / 0.2);
+                opacity: 0;
+                visibility: hidden;
+                transition-property: opacity, visibility;
+                transition-duration: 0.1s;
+            }
+            .theme-menu-checkbox:checked ~ .theme-menu-content {
+                opacity: 1;
+                visibility: visible;
+            }
+            .theme-menu-content [aria-current] {
+                font-weight: bold;
+                text-decoration: none;
+            }
+            /* Choosing a theme loads its page; where the browser can, the
+               old page fades into the new one. */
+            @media (prefers-reduced-motion: no-preference) {
+                @view-transition {
+                    navigation: auto;
+                }
+            }
+        </style>
+        <link id="theme-link" rel="stylesheet" href="/styles/{{ current }}.css" />
+        {%- if current != "default" %}
+        <link rel="canonical" href="https://melbcss.com/" />
+        {%- endif %}
         <title>Melbourne CSS Meetup</title>
         <meta
             name="description"
@@ -34,7 +126,7 @@
             <hgroup>
                 <h1>
                     <img
-                        src="img/logo.svg"
+                        src="/img/logo.svg"
                         alt="The primary rebeccapurple logo of the CSS specification."
                         width="40"
                         height="40"
@@ -142,14 +234,25 @@
             </section>
             <section class="controls">
                 <button id="mode-toggle" class="link-button">Toggle Dark/Light</button>
-                <label for="style-select">Community Themes:</label>
-                <select id="style-select">
-                    <option value="default.css">Default</option>
-                    <option value="retro.css">Retro by AsbedB</option>
-                    <option value="chaos.css">Chaos by ronvoluted</option>
-                    <option value="minecraft.css">Minecraft by LakshmiChaitanya2008</option>
-                    <option value="mario.css">Mario by Rajan232</option>
-                </select>
+                <label id="themes-label" for="theme-menu-checkbox">Community Themes:</label>
+                <div class="theme-menu">
+                    <input
+                        type="checkbox"
+                        id="theme-menu-checkbox"
+                        class="theme-menu-checkbox"
+                        autocomplete="off"
+                    />
+                    <label for="theme-menu-checkbox" class="link-button theme-menu-label">
+                        {% if current == "default" %}Default{% else %}{{ page.title }} by {{ page.author }}{% endif %}
+                        <span class="theme-menu-arrow" aria-hidden="true">▼</span>
+                    </label>
+                    <ul class="theme-menu-content" aria-labelledby="themes-label">
+                        <li><a href="/"{% if current == "default" %} aria-current="page"{% endif %}>Default</a></li>
+                        {%- for theme in themes %}
+                        <li><a href="{{ theme.url }}"{% if theme.slug == current %} aria-current="page"{% endif %}>{{ theme.title }} by {{ theme.author }}</a></li>
+                        {%- endfor %}
+                    </ul>
+                </div>
                 <a
                     href="https://github.com/melbcssmeetup/website"
                     target="_blank"
@@ -178,34 +281,6 @@
             const newScheme = currentScheme === "dark" ? "light" : "dark";
             document.documentElement.style.colorScheme = newScheme;
             document.body.classList.toggle("dark-mode", newScheme === "dark");
-        });
-        const styleSelect = document.getElementById("style-select");
-        let themeLink = document.getElementById("theme-link");
-        const theme = (new URLSearchParams(window.location.search).get("theme")) + ".css";
-        const validThemes = [...styleSelect.options].map(({ value }) => value);
-        const initialTheme = validThemes.includes(theme) ? theme : "default.css";
-        styleSelect.value = initialTheme;
-        themeLink.setAttribute("href", `styles/${initialTheme}`);
-
-        styleSelect.addEventListener("change", (event) => {
-            const fileName = event.target.value;
-            const newThemeLink = document.createElement("link");
-            newThemeLink.setAttribute("rel", "stylesheet");
-            newThemeLink.setAttribute("type", "text/css");
-            newThemeLink.setAttribute("href", `styles/${fileName}`);
-            newThemeLink.onload = () => {
-                themeLink.remove();
-                themeLink = newThemeLink;
-            };
-            document.head.appendChild(newThemeLink);
-
-            const url = new URL(window.location.href);
-            if (fileName === "default.css") {
-                url.searchParams.delete("theme");
-            } else {
-                url.searchParams.set("theme", fileName.replace(".css", ""));
-            }
-            history.replaceState(null, "", url);
         });
     </script>
 </html>
